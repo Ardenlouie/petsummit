@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/kojiesanadmin/public_html/petsummit.top2tail.com.ph
+    - rsync -r --exclude='.git' --exclude='.cpanel.yml' ./ $DEPLOYPATH

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Summit;
 use App\Http\Traits\SettingTrait;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ConfirmMail;
 
 class PetSummitController extends Controller
 {
@@ -44,9 +46,17 @@ class PetSummitController extends Controller
     {   
         $summit = Summit::findOrFail($pet_id);
 
+        if($summit->created_at <= '2026-03-13'){
+            $path = public_path('images/pregister.png');
+        } else {
+            $path = public_path('images/walkins.png');
+        }
+
         $summit->update([
             'attendance' => 1
         ]);
+
+        Mail::to($summit->email)->send(new ConfirmMail($path));
 
         return back()->with([
             'message_success' => __('

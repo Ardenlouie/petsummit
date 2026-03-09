@@ -59,9 +59,12 @@ class RegisterPetController extends Controller
     {   
         $summit = Summit::findOrFail(decrypt($pet_id));
 
+        $pdfContent = $this->printPDF($summit->id)->output();
+
+
         return view('thank-you')->with([
             'summit' => $summit,
-     
+            'pdfContent' => $pdfContent,
         ]);
        
     }
@@ -97,6 +100,10 @@ class RegisterPetController extends Controller
         return $shouldStream ? $pdf->stream() : $pdf;
     }
 
+    public function showPdf($id) {
+
+        return $this->printPDF($id, true); 
+    }
 
 
     private function generateControlNumber() {
@@ -157,12 +164,19 @@ class RegisterPetController extends Controller
     {
         $request->control_number = $this->generateControlNumber();
 
+        $pets = $request->pets;
+
+        if (in_array('others', $pets) && $request->filled('other_pet_name')) {
+            $key = array_search('others', $pets);
+            $pets[$key] = $request->other_pet_name;
+        }
+
         $attendance = 0;
         $pet = new Summit([
             'name' => $request->name,
             'email' => $request->email,
             'control_number' => $request->control_number,
-            'pets' => $request->pets,
+            'pets' => $pets,
             'spend' => $request->spend,
             'store' => $request->store,
             'product' => $request->product,

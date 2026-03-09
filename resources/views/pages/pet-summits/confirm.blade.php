@@ -2,6 +2,83 @@
 
 @section('adminlte_css_pre')
     <link rel="stylesheet" href="{{ asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+
+    <style>
+    .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+    }
+
+    .gallery img {
+        cursor: pointer;
+        width: 85%;
+        height: auto;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal img {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .modal img:hover {
+        transform: scale(1.1); /* Zoom effect */
+    }
+
+    .modal .close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+        cursor: pointer;
+    }
+
+    .modal .close:hover {
+        color: red;
+    }
+
+    .modal .download {
+        position: absolute;
+        bottom: 20px;
+        background-color: #fff;
+        color: #000;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .modal .download:hover {
+        background-color: #000;
+        color: #fff;
+    }
+</style>
 @stop
 
 @php( $login_url = View::getSection('login_url') ?? config('adminlte.login_url', 'login') )
@@ -24,10 +101,11 @@
 @section('auth_header', __(''))
 
 @section('auth_body')
-<form action="{{ route('update-pet', [encrypt($summit->id)]) }}" method="post" id="confirmationForm">
+<form action="{{ route('update-pet', [$summit->id]) }}" method="post" id="confirmationForm">
     @csrf
     <div class="row">
         <div class="card card-outline text-dark col-md-12">
+            
             <div class="card-body box-profile">
         
                 <h3 class="text-center"><b>{{$summit->control_number}}</b></h3>
@@ -62,17 +140,39 @@
                     </button>
                 </div>
                 @endif
+                <div class="card-tools" style="margin: 10px;">
+                    <div class="col-lg-12">
+                        <a href="{{route('pet-summit')}}" class="btn btn-secondary btn-xs">
+                            <i class="fa fa-caret-left"></i>
+                            {{__('adminlte::utilities.back')}}
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </form>
+@if($summit->created_at <= '2026-03-13' && $summit->attendance == 1)
+    <div class="gallery text-center">
+        <img class="popup-image" src="{{ asset('images/pregister.png') }}" alt="Image pregister" style="max-width: 100%; height: auto;">
+    </div>
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img id="modalImage" src="" alt="Expanded Image">
+        <a id="downloadLink" target="_blank" class="download" href="" download="Pre-registered Online.png">Download</a>
+    </div>
+@elseif($summit->created_at > '2026-03-13' && $summit->attendance == 1)
+    <div class="gallery text-center">
+        <img class="popup-image" src="{{ asset('images/walkins.png') }}" alt="Image onsite" style="max-width: 100%; height: auto;">
+    </div>
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img id="modalImage" src="" alt="Expanded Image">
+        <a id="downloadLink" target="_blank" class="download" href="" download="Walk-ins.png">Download</a>
+    </div>
+@else
+@endif
 
-<div class="col-lg-6 text-right">
-    <a href="{{route('pet-summit')}}" class="btn btn-secondary btn-xs">
-        <i class="fa fa-caret-left"></i>
-        {{__('adminlte::utilities.back')}}
-    </a>
-</div>
 @stop
 
 @section('auth_footer')
@@ -109,5 +209,30 @@
     confirmBtn.disabled = true;
     document.getElementById('confirmationForm').submit();
 }
+</script>
+<script>
+    const galleryImages = document.querySelectorAll('.popup-image');
+    const imageModal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const downloadLink = document.getElementById('downloadLink');
+    const closeModal = document.querySelector('.modal .close');
+
+    galleryImages.forEach((image) => {
+        image.addEventListener('click', () => {
+            modalImage.src = image.src; 
+            downloadLink.href = image.src; 
+            imageModal.style.display = 'flex';
+        });
+    });
+
+    closeModal.addEventListener('click', () => {
+        imageModal.style.display = 'none';
+    });
+
+    imageModal.addEventListener('click', (event) => {
+        if (event.target === imageModal) {
+            imageModal.style.display = 'none';
+        }
+    });
 </script>
 @stop

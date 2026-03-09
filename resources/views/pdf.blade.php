@@ -43,7 +43,7 @@
 <body>
 
 <div class="client-name">
-    Ref. No: {{ $summit->control_number }}
+    Ref. No.: {{ $summit->control_number }}
 </div>
 
 <div class="qr-code">

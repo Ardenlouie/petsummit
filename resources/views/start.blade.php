@@ -87,8 +87,14 @@
 
                     <div class="custom-control custom-checkbox mb-2">
                         <input class="custom-control-input custom-control-input-danger" type="checkbox" name="pets[]" id="others" value="others"
-                            {{ is_array(old('pets')) && in_array('others', old('pets')) ? 'checked' : '' }}>
+                            {{ is_array(old('pets')) && in_array('others', old('pets')) ? 'checked' : '' }}
+                            onclick="toggleOthersInput()">
                         <label class="custom-control-label" for="others">{{ __('Others') }}</label>
+                    </div>
+
+                    <div id="other-pet-input" style="display: {{ is_array(old('pets')) && in_array('others', old('pets')) ? 'block' : 'none' }}; margin-top: 10px;">
+                        <input type="text" name="other_pet_name" class="form-control" 
+                            placeholder="Please specify" value="{{ old('other_pet_name') }}">
                     </div>
 
                 </div>
@@ -394,11 +400,12 @@
         </div>
 
         <div class="col-lg-8" style="margin: 20px auto;">
-            <button type="submit" id="submit-btn" class="btn btn-dark btn-block rounded-pill" disabled>
+            <button type="submit" class="btn btn-dark btn-block rounded-pill" onclick="this.disabled=true; this.form.submit();" id="submit-btn" disabled>
                 <strong>REGISTER NOW</strong>
             </button>
         </div>
 
+        
 
 
     </form>
@@ -447,5 +454,20 @@
     </div>
 </div>
 
-
+<script>
+    function toggleOthersInput() {
+        const checkbox = document.getElementById('others');
+        const inputDiv = document.getElementById('other-pet-input');
+        
+        if (checkbox.checked) {
+            inputDiv.style.display = 'block';
+            // Optional: Auto-focus the input when it appears
+            inputDiv.querySelector('input').focus();
+        } else {
+            inputDiv.style.display = 'none';
+            // Optional: Clear the input if they uncheck it
+            inputDiv.querySelector('input').value = '';
+        }
+    }
+</script>
 @stop

@@ -29,7 +29,7 @@ Route::post('register-pet', [RegisterPetController::class, 'register_pet'])->nam
 Route::get('/', [RegisterPetController::class, 'register_petsummit'])->name('register-petsummit');
 Route::get('thank-you/{pet_id}', [RegisterPetController::class, 'thank_you'])->name('thank-you');
 Route::get('printPDF/{pet_id}', [RegisterPetController::class, 'printPDF'])->name('print-pdf');
-
+Route::get('/view-pdf/{id}', [RegisterPetController::class, 'showPdf'])->name('view.pdf');
 
 Auth::routes();
 

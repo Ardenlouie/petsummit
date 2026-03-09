@@ -2,82 +2,6 @@
 
 @section('adminlte_css_pre')
     <link rel="stylesheet" href="{{ asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <style>
-    .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-    }
-
-    .gallery img {
-        cursor: pointer;
-        width: 85%;
-        height: auto;
-        border-radius: 10px;
-        transition: transform 0.3s ease;
-    }
-
-    .gallery img:hover {
-        transform: scale(1.05);
-    }
-
-    /* Modal Styles */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal img {
-        max-width: 100%;
-        max-height: 100%;
-        border-radius: 10px;
-        transition: transform 0.3s ease;
-    }
-
-    .modal img:hover {
-        transform: scale(1.1); /* Zoom effect */
-    }
-
-    .modal .close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        font-size: 30px;
-        font-weight: bold;
-        color: white;
-        cursor: pointer;
-    }
-
-    .modal .close:hover {
-        color: red;
-    }
-
-    .modal .download {
-        position: absolute;
-        bottom: 20px;
-        background-color: #fff;
-        color: #000;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .modal .download:hover {
-        background-color: #000;
-        color: #fff;
-    }
-</style>
 @stop
 
 @php( $login_url = View::getSection('login_url') ?? config('adminlte.login_url', 'login') )
@@ -97,30 +21,23 @@
     @php( $password_reset_url = $password_reset_url ? url($password_reset_url) : '' )
 @endif
 
-@section('auth_header', __('THANK YOU. YOUR CARNIVAL SHOW PASS WILL BE SENT TO YOUR EMAIL. SEE YOU AT THE SHOW!'))
+@section('auth_header', __('Thank you for registering!'))
 
 @section('auth_body')
-
-@if($summit->created_at <= '2026-03-13')
-    <div class="gallery text-center">
-        <img class="popup-image" src="{{ asset('images/pregister.png') }}" alt="Image pregister" style="max-width: 100%; height: auto;">
+<div class="card">
+    <div class="card-header text-center">
+        <strong class="text-lg text-justify">Your Carnival Show Pass is also in your registered email. Show it at the Top2Tail Booth #18 to receive exciting rewards. 🎉</strong>
     </div>
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img id="modalImage" src="" alt="Expanded Image">
-        <a id="downloadLink" target="_blank" class="download" href="" download="Pre-registered Online.png">Download</a>
+    <div class="card-body">
+        <iframe 
+            src="{{ route('view.pdf', $summit->id) }}" 
+            width="100%" 
+            height="600px" 
+            style="border: none;">
+        </iframe>
     </div>
-@else
-    <div class="gallery text-center">
-        <img class="popup-image" src="{{ asset('images/walkins.png') }}" alt="Image onsite" style="max-width: 100%; height: auto;">
-    </div>
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img id="modalImage" src="" alt="Expanded Image">
-        <a id="downloadLink" target="_blank" class="download" href="" download="Walk-ins.png">Download</a>
-    </div>
-@endif
-
+    
+</div>
 @stop
 
 @section('auth_footer')
@@ -131,29 +48,5 @@
     All rights reserved.
 </p>
 
-<script>
-    const galleryImages = document.querySelectorAll('.popup-image');
-    const imageModal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-    const downloadLink = document.getElementById('downloadLink');
-    const closeModal = document.querySelector('.modal .close');
 
-    galleryImages.forEach((image) => {
-        image.addEventListener('click', () => {
-            modalImage.src = image.src; 
-            downloadLink.href = image.src; 
-            imageModal.style.display = 'flex';
-        });
-    });
-
-    closeModal.addEventListener('click', () => {
-        imageModal.style.display = 'none';
-    });
-
-    imageModal.addEventListener('click', (event) => {
-        if (event.target === imageModal) {
-            imageModal.style.display = 'none';
-        }
-    });
-</script>
 @stop

@@ -36,6 +36,7 @@
                     <table class="table table-sm table-striped table-hover mb-0 rounded">
                         <thead class="text-center bg-dark">
                             <tr class="text-center">
+                                <th>{{__('Control Number')}}</th>
                                 <th>{{__('adminlte::utilities.name')}}</th>
                                 <th>{{__('Email')}}</th>
                                 <th>{{__('Date Registered')}}</th>
@@ -46,6 +47,9 @@
                         <tbody>
                             @foreach($summit as $summits)
                                 <tr>
+                                    <td class="align-middle text-center">
+                                        {{$summits->control_number}}
+                                    </td>
                                     <td class="align-middle text-center">
                                         {{$summits->name}}
                                     </td>

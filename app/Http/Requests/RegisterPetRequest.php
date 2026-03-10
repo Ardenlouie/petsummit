@@ -28,7 +28,7 @@ class RegisterPetRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                // 'unique:summit_2026'
+                'unique:summit_2026'
             ],
             'control_number' => [
                 'required',

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Milon\Barcode\DNS2D;
 
+
 class RegisterPetController extends Controller
 {
     /*
@@ -59,12 +60,9 @@ class RegisterPetController extends Controller
     {   
         $summit = Summit::findOrFail(decrypt($pet_id));
 
-        $pdfContent = $this->printPDF($summit->id)->output();
-
-
         return view('thank-you')->with([
             'summit' => $summit,
-            'pdfContent' => $pdfContent,
+
         ]);
        
     }

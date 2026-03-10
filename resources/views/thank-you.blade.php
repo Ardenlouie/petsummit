@@ -1,7 +1,34 @@
 @extends('adminlte::auth.auth-page', ['auth_type' => 'login'])
 
 @section('adminlte_css_pre')
-    <link rel="stylesheet" href="{{ asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+<style>
+    .card-template{
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 16/9;
+    }
+
+    .bg-template{
+        height: auto;
+        width: 100%;
+    }
+
+    /* QR Position */
+    .qr{
+        position:absolute; 
+        top:42%; 
+        left:75%;
+    }
+
+    /* Pet Name */
+    .pet-name{
+        position:absolute; 
+        top:55%; 
+        left:40%; 
+        font-weight:bold;
+    }
+</style>
 @stop
 
 @php( $login_url = View::getSection('login_url') ?? config('adminlte.login_url', 'login') )
@@ -26,16 +53,27 @@
 @section('auth_body')
 <div class="card">
     <div class="card-header text-center">
-        <strong class="text-lg text-justify">Your Carnival Show Pass is also in your registered email. Show it at the Top2Tail Booth #18 to receive exciting rewards. 🎉</strong>
+        <strong class="text-lg text-justify">Your Carnival Show Pass is in your registered email. Show it at the Top2Tail Booth #18 to receive exciting rewards. 🎉</strong>
     </div>
-    <div class="card-body">
-        <iframe 
-            src="{{ route('view.pdf', $summit->id) }}" 
-            width="100%" 
-            height="600px" 
-            style="border: none;">
-        </iframe>
-    </div>
+    <!-- <div class="card-body">
+
+        <div class="card-template">
+
+            <img src="{{ asset('images/petsummitpassnoqr.png') }}" class="bg-template">
+
+            <div class="qr">
+                {!! DNS2D::getBarcodeHTML(route('confirm',$summit->id), 'QRCODE', 5, 5) !!}
+
+            </div>
+
+    
+            <div class="pet-name text-danger">
+                Ref. No.: {{ $summit->control_number }}
+
+            </div>
+
+        </div>
+    </div> -->
     
 </div>
 @stop

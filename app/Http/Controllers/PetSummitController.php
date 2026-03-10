@@ -19,6 +19,7 @@ class PetSummitController extends Controller
         $summit = Summit::orderBy('id', 'DESC')
             ->when(!empty($search), function($query) use($search) {
                 $query->where('name', 'like', '%'.$search.'%');
+                $query->where('control_number', 'like', '%'.$search.'%');
             })
             ->paginate($this->getDataPerPage())->onEachSide(1)
             ->appends(request()->query());
@@ -46,7 +47,10 @@ class PetSummitController extends Controller
     {   
         $summit = Summit::findOrFail($pet_id);
 
-        if($summit->created_at <= '2026-03-13'){
+        $changes_arr['old'] = $summit->getOriginal();
+
+
+        if($summit->created_at <= '2026-03-12'){
             $path = public_path('images/pregister.png');
         } else {
             $path = public_path('images/walkins.png');
@@ -57,6 +61,13 @@ class PetSummitController extends Controller
         ]);
 
         Mail::to($summit->email)->send(new ConfirmMail($path));
+
+        $changes_arr['changes'] = $summit->getChanges();
+
+        activity('updated')
+            ->performedOn($summit)
+            ->withProperties($changes_arr)
+            ->log(':causer.name has updated registration :subject.control_number');
 
         return back()->with([
             'message_success' => __('

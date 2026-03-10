@@ -101,6 +101,16 @@
 @section('auth_header', __(''))
 
 @section('auth_body')
+<div class="card-body" style="width: 400px;">
+    <div class="card-tools" style="position: absolute; top: 10px; right: 10px;">
+        <div class="col-lg-12">
+            <a href="{{route('pet-summit')}}" class="btn btn-secondary btn-xs">
+                <i class="fa fa-caret-left"></i>
+                {{__('adminlte::utilities.back')}}
+            </a>
+            
+        </div>
+    </div>
 <form action="{{ route('update-pet', [$summit->id]) }}" method="post" id="confirmationForm">
     @csrf
     <div class="row">
@@ -121,7 +131,7 @@
                         <b>Date Registered</b> <a class="float-right">{{date('F d, Y', strtotime($summit->created_at))}}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>With Free Popcorn</b> <span class="float-right badge {{$summit->created_at <= '2026-03-13' ? 'badge-success' : 'badge-danger'}}">
+                        <b>With Free Popcorn</b> <span class="float-right badge {{$summit->created_at <= '2026-03-12' ? 'badge-success' : 'badge-danger'}}">
                             <b>{{$summit->created_at <= '2026-03-13' ? 'Yes' : 'No'}}</b></span>
                     </li>
                 </ul>
@@ -140,19 +150,15 @@
                     </button>
                 </div>
                 @endif
-                <div class="card-tools" style="margin: 10px;">
-                    <div class="col-lg-12">
-                        <a href="{{route('pet-summit')}}" class="btn btn-secondary btn-xs">
-                            <i class="fa fa-caret-left"></i>
-                            {{__('adminlte::utilities.back')}}
-                        </a>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
 </form>
-@if($summit->created_at <= '2026-03-13' && $summit->attendance == 1)
+</div>
+
+
+@if($summit->created_at <= '2026-03-12' && $summit->attendance == 1)
     <div class="gallery text-center">
         <img class="popup-image" src="{{ asset('images/pregister.png') }}" alt="Image pregister" style="max-width: 100%; height: auto;">
     </div>
@@ -161,7 +167,7 @@
         <img id="modalImage" src="" alt="Expanded Image">
         <a id="downloadLink" target="_blank" class="download" href="" download="Pre-registered Online.png">Download</a>
     </div>
-@elseif($summit->created_at > '2026-03-13' && $summit->attendance == 1)
+@elseif($summit->created_at > '2026-03-12' && $summit->attendance == 1)
     <div class="gallery text-center">
         <img class="popup-image" src="{{ asset('images/walkins.png') }}" alt="Image onsite" style="max-width: 100%; height: auto;">
     </div>

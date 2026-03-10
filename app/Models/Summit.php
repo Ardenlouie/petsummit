@@ -11,7 +11,7 @@ class Summit extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'summit_2026_test';
+    protected $table = 'summit_2026';
 
     protected $casts = [
         'pets' => 'array',

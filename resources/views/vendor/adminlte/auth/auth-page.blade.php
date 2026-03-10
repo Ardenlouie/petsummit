@@ -37,15 +37,20 @@
 
 @section('body')
 
-    <div class="{{ $auth_type ?? 'login' }}-card-container">
+    <div class="container-fluid p-0">
+        <img src="{{ asset('images/banner.jpg') }}" class="img-fluid w-100 d-block" style=" object-fit: cover;">
+    </div>
+
+    <div class="{{ $auth_type ?? 'login' }}-container-fluid p-0">
 
         {{-- Logo --}}
         <div class="{{ $auth_type ?? 'login' }}-logo">
             <a href="/">
-                <img src="{{ asset('images/top2taillogo.png') }}" alt="Top2Tail" style="height: 80px;" ><br>
+                <!-- <img src="{{ asset('images/top2taillogo.png') }}" alt="Top2Tail" style="height: 80px;" ><br> -->
+                <!-- <img src="{{ asset('images/banner.jpg') }}" class="img-fluid w-100 d-block" style="max-height: 300px; object-fit: cover;"> -->
         
                 {{-- Logo Label --}}
-                <strong class="text-xl text-dark"><b>PAWRADISE CARNIVAL AT THE PET SUMMIT PH 2026</b></strong>
+                <strong class="text-xl text-dark"><b>PAWRADISE CARNIVAL</b></strong>
 
             </a>
         </div>
@@ -63,7 +68,7 @@
             @endif
 
             {{-- Card Body --}}
-            <div class="card-body {{ $auth_type ?? 'login' }}-card-body {{ config('adminlte.classes_auth_body', '') }}">
+            <div class="card-body {{ $auth_type ?? 'login' }}-card-body {{ config('adminlte.classes_auth_body', '') }} ">
                 @yield('auth_body')
             </div>
 

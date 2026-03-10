@@ -21,7 +21,7 @@
     @php( $password_reset_url = $password_reset_url ? url($password_reset_url) : '' )
 @endif
 
-@section('auth_header', __('REGISTER FORM'))
+@section('auth_header', __('REGISTRATION FORM'))
 
 @section('auth_body')
     <form action="{{ $register_pet }}" method="post">

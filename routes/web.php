@@ -144,3 +144,5 @@ Route::group(['middleware' => ['auth', 'optimizeImages']], function() {
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/export', [App\Http\Controllers\HomeController::class, 'export'])->name('export');
+Route::get('/export/all', [App\Http\Controllers\HomeController::class, 'exportAll'])->name('export.all');
